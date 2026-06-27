@@ -18,8 +18,10 @@ jobs:
 
       - run: npm run build
 
+      - run: ls -la dist/
+
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy dist --project-name=mont-family-portal
+        run: npx --yes wrangler@3 pages deploy dist --project-name=mont-family-portal
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
