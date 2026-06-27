@@ -1,0 +1,22 @@
+when:
+  - event: push
+    branch: main
+
+steps:
+  - name: install
+    image: local
+    commands:
+      - npm ci
+
+  - name: build
+    image: local
+    commands:
+      - npm run build
+
+  - name: deploy
+    image: local
+    secrets:
+      - cf_api_token
+      - cf_account_id
+    commands:
+      - CLOUDFLARE_API_TOKEN=$CF_API_TOKEN CLOUDFLARE_ACCOUNT_ID=$CF_ACCOUNT_ID npx wrangler pages deploy dist --project-name=mont-family-portal
