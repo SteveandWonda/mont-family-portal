@@ -8,12 +8,14 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      - name: Checkout
+        run: |
+          if [ -d ".git" ]; then
+            git fetch origin main
+            git reset --hard origin/main
+          else
+            git clone https://mont.family:${{ secrets.GIT_PASS }}@git.mont.family/mont.family/portal.git .
+          fi
 
       - name: Install dependencies
         run: npm ci
